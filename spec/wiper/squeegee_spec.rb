@@ -59,5 +59,8 @@ module Wiper
         end
       end
     end
+
+    context 'reverse wipe' do
+    end
   end
 end
