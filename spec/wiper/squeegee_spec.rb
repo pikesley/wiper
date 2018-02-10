@@ -64,6 +64,8 @@ module Wiper
           end
           count += 1
         end
+
+        expect(sq.grid[0].length).to eq 45
       end
     end
   end
