@@ -31,7 +31,7 @@ module Wiper
     def has_more?
       case @direction
       when :east
-        @index < 46
+        @index < 45
       when :west
         @index >= 0
       end
