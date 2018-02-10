@@ -1,9 +1,15 @@
 module Wiper
   describe Squeegee do
-    it 'exposes the to_dots API' do
+    context 'animation frames' do
       s = Squeegee.new
 
-      expect(s.grid.to_dots).to eq [[0] * 45] * 7
+      it 'exposes the to_dots API' do
+        expect(s.grid.to_dots).to eq [[0] * 45] * 7
+      end
+
+      it 'has an animtype' do
+        expect(s.grid.animtype).to eq :tween
+      end
     end
   end
 end

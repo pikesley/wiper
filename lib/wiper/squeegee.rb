@@ -27,6 +27,10 @@ end
 
 class Array
   def to_dots
-    self 
+    self
+  end
+
+  def animtype
+    :tween
   end
 end
