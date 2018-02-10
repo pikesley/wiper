@@ -10,17 +10,23 @@ module Wiper
 
     def wipe
       @grid.map do |row|
-        row[@index] = 1
+        row[@index] = 1 if @index < 45
         row[@index - 1] = 0 if @index > 0
       end
       @index += 1
     end
 
     def each
-      while @index < 45
+      while @index < 46
         wipe
         yield @grid
       end
     end
+  end
+end
+
+class Array
+  def to_dots
+    self 
   end
 end

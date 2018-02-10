@@ -47,6 +47,11 @@ module Wiper
           expect(row[0..43].all? { |i| i == 0 }).to be true
           expect(row[44]).to eq 1
         end
+
+        s.wipe
+        s.grid.each do |row|
+          expect(row.all? { |i| i == 0 }).to be true
+        end
       end
 
       it 'exposes an iterator' do
@@ -54,7 +59,9 @@ module Wiper
 
         count = 0
         sq.each do |grid|
-          expect(grid[0].index 1).to eq count
+          unless count == 45
+            expect(grid[0].index 1).to eq count
+          end
           count += 1
         end
       end
