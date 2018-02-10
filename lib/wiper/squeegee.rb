@@ -11,7 +11,7 @@ module Wiper
     def wipe
       @grid.map do |row|
         row[@index] = 1
-        row[@index - 1] = 0 #if @index > 0
+        row[@index - 1] = 0 if @index > 0
       end
       @index += 1
     end
