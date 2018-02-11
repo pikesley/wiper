@@ -19,19 +19,21 @@ module Wiper
     end
 
     def wipe
-      @grid.transpose! if [:north, :south].include? @direction
-      @grid.map do |row|
-        row.reverse! if [:north, :west].include? @direction
-        row[@index] = 1 if @index < row.length
-        unless curtain
-          row[@index - 1] = 0 if @index > 0
+      if @index <= @limit
+        @grid.transpose! if [:north, :south].include? @direction
+        @grid.map do |row|
+          row.reverse! if [:north, :west].include? @direction
+          row[@index] = 1 if @index < row.length
+          unless curtain
+            row[@index - 1] = 0 if @index > 0
+          end
+          row.reverse! if [:north, :west].include? @direction
         end
-        row.reverse! if [:north, :west].include? @direction
-      end
-      @grid.transpose! if [:north, :south].include? @direction
-      @grid.interval = @interval
+        @grid.transpose! if [:north, :south].include? @direction
+        @grid.interval = @interval
 
-      @index += 1
+        @index += 1
+      end
     end
 
     def each
