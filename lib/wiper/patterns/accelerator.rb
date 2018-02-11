@@ -14,18 +14,21 @@ module Wiper
 
         @squeegee = Squeegee.new do |s|
           s.grid = @grid
-          s.interval = @interval
           s.direction = @direction
         end
       end
 
       def each
         @squeegee.each do |frame|
+          frame.interval = @interval
           yield frame
           @interval = @interval * @multiplier
-          @squeegee.interval = @interval
         end
       end
     end
   end
+end
+
+class Array
+  attr_accessor :interval
 end

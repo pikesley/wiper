@@ -1,12 +1,11 @@
 module Wiper
   class Squeegee
-    attr_accessor :grid, :direction, :curtain, :interval
+    attr_accessor :grid, :direction, :curtain
 
     def initialize
       @grid = [[0] * 45] * 7
       @direction = :east
       @curtain = false
-      @interval = 0.1
       @index = 0
       @limit = 45
 
@@ -30,7 +29,6 @@ module Wiper
           row.reverse! if [:north, :west].include? @direction
         end
         @grid.transpose! if [:north, :south].include? @direction
-        @grid.interval = @interval
 
         @index += 1
       end
@@ -46,8 +44,6 @@ module Wiper
 end
 
 class Array
-  attr_accessor :interval
-
   def to_dots
     self
   end

@@ -7,7 +7,7 @@ module Wiper
         a.each do |frame|
         end
 
-        expect(a.squeegee.interval).to eq 0.008727963568087723
+        expect(a.interval).to eq 0.008727963568087723
       end
     end
   end
