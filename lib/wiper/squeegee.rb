@@ -4,11 +4,13 @@ module Wiper
     attr_accessor :direction, :curtain
 
     def initialize
-      @grid = [[0] * 45] * 7
+      @grid = PhatGrid.new [[0] * 45] * 7
       @direction = :east
       @curtain = false
       yield self if block_given?
       @index = 0
+      @limit = 45
+      @limit = 7 if [:north, :south].include? @direction
     end
 
     def grid= data
@@ -16,7 +18,7 @@ module Wiper
     end
 
     def wipe
-      @grid = @grid.transpose if [:north, :south].include? @direction
+      @grid = PhatGrid.new(@grid.transpose) if [:north, :south].include? @direction
       @grid.map do |row|
         row.reverse! if [:north, :west].include? @direction
         row[@index] = 1 if @index < row.length
@@ -25,13 +27,13 @@ module Wiper
         end
         row.reverse! if [:north, :west].include? @direction
       end
-      @grid = @grid.transpose if [:north, :south].include? @direction
+      @grid = PhatGrid.new(@grid.transpose) if [:north, :south].include? @direction
 
       @index += 1
     end
 
     def each
-      while @index < 45
+      while @index < @limit
         wipe
         yield @grid
       end
@@ -40,7 +42,7 @@ module Wiper
 
   class PhatGrid < Array
     def initialize data
-      7.times do |index|
+      data.length.times do |index|
         self[index] = data[index]
       end
     end
