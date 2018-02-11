@@ -16,14 +16,17 @@ module Wiper
     end
 
     def wipe
+      @grid = @grid.transpose if [:north, :south].include? @direction
       @grid.map do |row|
-        row.reverse! if @direction == :west
-        row[@index] = 1 if @index < 45
+        row.reverse! if [:north, :west].include? @direction
+        row[@index] = 1 if @index < row.length
         unless curtain
           row[@index - 1] = 0 if @index > 0
         end
-        row.reverse! if @direction == :west
+        row.reverse! if [:north, :west].include? @direction
       end
+      @grid = @grid.transpose if [:north, :south].include? @direction
+
       @index += 1
     end
 
