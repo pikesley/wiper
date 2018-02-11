@@ -1,24 +1,24 @@
 module Wiper
   class Squeegee
-    attr_reader :grid
-    attr_accessor :direction, :curtain
+    attr_accessor :grid, :direction, :curtain
 
     def initialize
-      @grid = PhatGrid.new [[0] * 45] * 7
+      @grid = [[0] * 45] * 7
       @direction = :east
       @curtain = false
-      yield self if block_given?
       @index = 0
       @limit = 45
-      @limit = 7 if [:north, :south].include? @direction
+
+      yield self if block_given?
     end
 
-    def grid= data
-      @grid = PhatGrid.new data
+    def direction= dir
+      @direction = dir
+      @limit = 7 if [:north, :south].include? dir
     end
 
     def wipe
-      @grid = PhatGrid.new(@grid.transpose) if [:north, :south].include? @direction
+      @grid = @grid.transpose if [:north, :south].include? @direction
       @grid.map do |row|
         row.reverse! if [:north, :west].include? @direction
         row[@index] = 1 if @index < row.length
@@ -27,7 +27,7 @@ module Wiper
         end
         row.reverse! if [:north, :west].include? @direction
       end
-      @grid = PhatGrid.new(@grid.transpose) if [:north, :south].include? @direction
+      @grid = @grid.transpose if [:north, :south].include? @direction
 
       @index += 1
     end
@@ -39,20 +39,14 @@ module Wiper
       end
     end
   end
+end
 
-  class PhatGrid < Array
-    def initialize data
-      data.length.times do |index|
-        self[index] = data[index]
-      end
-    end
+class Array
+  def to_dots
+    self
+  end
 
-    def to_dots
-      self
-    end
-
-    def animtype
-      :tween
-    end
+  def animtype
+    :tween
   end
 end

@@ -52,5 +52,25 @@ module Wiper
         end
       end
     end
+
+    it 'exposes the to_dots API' do
+      s = Squeegee.new do |s|
+        s.direction = :north
+      end
+
+      expect(s.grid.to_dots).to eq [[0] * 45] * 7
+    end
+
+    it 'exposes an iterator' do
+      s = Squeegee.new do |s|
+        s.direction = :south
+      end
+
+      count = 0
+      s.each do
+        count += 1
+      end
+      expect(count).to eq 7
+    end
   end
 end
