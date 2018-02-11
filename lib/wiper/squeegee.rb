@@ -1,11 +1,12 @@
 module Wiper
   class Squeegee
-    attr_accessor :grid, :direction, :curtain
+    attr_accessor :grid, :direction, :curtain, :interval
 
     def initialize
       @grid = [[0] * 45] * 7
       @direction = :east
       @curtain = false
+      @interval = 0.1
       @index = 0
       @limit = 45
 
@@ -18,7 +19,7 @@ module Wiper
     end
 
     def wipe
-      @grid = @grid.transpose if [:north, :south].include? @direction
+      @grid.transpose! if [:north, :south].include? @direction
       @grid.map do |row|
         row.reverse! if [:north, :west].include? @direction
         row[@index] = 1 if @index < row.length
@@ -27,7 +28,8 @@ module Wiper
         end
         row.reverse! if [:north, :west].include? @direction
       end
-      @grid = @grid.transpose if [:north, :south].include? @direction
+      @grid.transpose! if [:north, :south].include? @direction
+      @grid.interval = @interval
 
       @index += 1
     end
@@ -42,11 +44,19 @@ module Wiper
 end
 
 class Array
+  attr_accessor :interval
+
   def to_dots
     self
   end
 
   def animtype
     :tween
+  end
+
+  def transpose!
+    a = self.transpose
+    self.map! { |i| i = nil }.compact!
+    a.map { |i| self.push i }
   end
 end
