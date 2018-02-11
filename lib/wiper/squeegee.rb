@@ -1,6 +1,7 @@
 module Wiper
   class Squeegee
-    attr_accessor :grid, :direction, :curtain
+    attr_reader :grid
+    attr_accessor :direction, :curtain
 
     def initialize
       @grid = [[0] * 45] * 7
@@ -8,6 +9,10 @@ module Wiper
       @curtain = false
       yield self if block_given?
       @index = 0
+    end
+
+    def grid= data
+      @grid = PhatGrid.new data
     end
 
     def wipe
@@ -29,14 +34,20 @@ module Wiper
       end
     end
   end
-end
 
-class Array
-  def to_dots
-    self
-  end
+  class PhatGrid < Array
+    def initialize data
+      7.times do |index|
+        self[index] = data[index]
+      end
+    end
 
-  def animtype
-    :tween
+    def to_dots
+      self
+    end
+
+    def animtype
+      :tween
+    end
   end
 end
