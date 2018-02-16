@@ -1,6 +1,6 @@
 module Wiper
   class Squeegee
-    attr_accessor :grid, :direction, :curtain
+    attr_accessor :grid, :direction, :curtain, :limit
 
     def initialize
       @grid = [[0] * 45] * 7
